@@ -6,17 +6,21 @@ public class Enemy : MonoBehaviour
 {
     public Transform player;
     public float baseSpeed = 2f;
-    public float orbitFactor = 0.7f; // how much is sideways vs inward pull
+    public float orbitFactor = 0.7f; // sideways vs inward pull
     public float avoidanceStrength = 2f;
     public float avoidanceRadius = 1f;
-    public float speed;
-    public float distance;
+    public float rotationSpeed = 360f; // degrees per second for turning
+    public float moveSmooth = 0.1f; // smoothing factor for direction
 
     private Rigidbody2D rb;
+    private Vector2 smoothDir; // smoothed movement direction
+    public float speed;
+    public float distance;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        smoothDir = transform.up; // start pointing "up"
     }
 
     void FixedUpdate()
@@ -31,7 +35,7 @@ public class Enemy : MonoBehaviour
         // Mix orbit and pull so enemy doesn't drift away
         Vector2 moveDir = (toPlayerNormalized * (1f - orbitFactor)) + (orbitDir * orbitFactor);
 
-        // Speed scales a little with distance
+        // Speed scales with distance
         speed = baseSpeed + distance * 0.3f;
 
         // Avoidance from other enemies
@@ -45,14 +49,23 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        // Normalize final move direction
         moveDir.Normalize();
 
+        // Smooth movement direction (prevents jitter)
+        smoothDir = Vector2.Lerp(smoothDir, moveDir, moveSmooth).normalized;
+
         // Move enemy
-        Vector2 newPos = rb.position + moveDir * speed * Time.fixedDeltaTime;
+        Vector2 newPos = rb.position + smoothDir * speed * Time.fixedDeltaTime;
         rb.MovePosition(newPos);
 
-        // Rotate to face movement direction
-        float angle = Mathf.Atan2(moveDir.y, moveDir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+        // Rotate smoothly toward smoothed movement direction
+        float targetAngle = Mathf.Atan2(smoothDir.y, smoothDir.x) * Mathf.Rad2Deg - 90f;
+        float angle = Mathf.MoveTowardsAngle(
+        transform.eulerAngles.z,
+        targetAngle,
+        rotationSpeed * Time.fixedDeltaTime
+        );
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }
