@@ -179,7 +179,7 @@ MonoBehaviour:
   player: {fileID: 1249484597}
   baseSpeed: 5
   orbitFactor: 0.7
-  avoidanceStrength: 2
+  avoidanceStrength: 4
   avoidanceRadius: 1
   speed: 0
   distance: 0
@@ -448,8 +448,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 1
+  m_Offset: {x: 0, y: 0.012574434}
+  m_Radius: 1.3017828
 --- !u!1 &1423614248
 GameObject:
   m_ObjectHideFlags: 0
