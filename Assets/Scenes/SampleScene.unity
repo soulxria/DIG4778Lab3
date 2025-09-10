@@ -181,6 +181,8 @@ MonoBehaviour:
   orbitFactor: 0.7
   avoidanceStrength: 4
   avoidanceRadius: 1
+  rotationSpeed: 360
+  moveSmooth: 0.1
   speed: 0
   distance: 0
 --- !u!4 &351321856
@@ -192,7 +194,7 @@ Transform:
   m_GameObject: {fileID: 351321853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.49, y: -0.23, z: 0}
+  m_LocalPosition: {x: -2.5012565, y: -0.22937351, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -391,6 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1249484597}
   - component: {fileID: 1249484598}
+  - component: {fileID: 1249484599}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -450,6 +453,19 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0.012574434}
   m_Radius: 1.3017828
+--- !u!114 &1249484599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1249484596}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f8fdb28397c6c14c90a0749ad90f3b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player
+  speed: 3
 --- !u!1 &1423614248
 GameObject:
   m_ObjectHideFlags: 0
