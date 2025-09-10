@@ -30,10 +30,10 @@ public class Enemy : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(transform.position, avoidanceRadius);
     
         if (hit != null && hit.gameObject != gameObject)
-            {
-                Vector2 awayvariable = (transform.position - hit.transform.position).normalized;
-                orbitDir += awayvariable * avoidanceStrength;
-            }
+        {
+            Vector2 awayvariable = (transform.position - hit.transform.position).normalized;
+            orbitDir += awayvariable * avoidanceStrength;
+        }
 
         orbitDir.Normalize();
 
