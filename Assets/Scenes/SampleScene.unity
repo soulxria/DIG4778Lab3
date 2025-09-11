@@ -179,7 +179,7 @@ MonoBehaviour:
   player: {fileID: 1249484597}
   baseSpeed: 5
   orbitFactor: 0.7
-  avoidanceStrength: 4
+  avoidanceStrength: 2
   avoidanceRadius: 1
   rotationSpeed: 360
   moveSmooth: 0.1
@@ -460,7 +460,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1249484596}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f8fdb28397c6c14c90a0749ad90f3b4, type: 3}
   m_Name: 
