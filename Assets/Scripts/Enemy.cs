@@ -5,8 +5,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public Transform player;
-    public float baseSpeed = 2f;
-    public float orbitFactor = 0.7f; // sideways vs inward pull
+    public float baseSpeed;
+    public float orbitFactor; // sideways vs inward pull
     public float avoidanceStrength = 2f;
     public float avoidanceRadius = 1f;
     public float rotationSpeed = 360f; // degrees per second for turning
@@ -17,10 +17,22 @@ public class Enemy : MonoBehaviour
     public float speed;
     public float distance;
 
+    //new variables for dot product rotation
+    public float dotProd;
+    public float angleMade;
+    public float angleMadeDegrees;
+    private float angleTracker;
+
+    private Quaternion newRotation;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         smoothDir = transform.up; // start pointing "up"
+        angleTracker = dotProd;
+        baseSpeed = Random.Range(2f,4f);
+        orbitFactor = Random.Range(.7f, 1f);
     }
 
     void FixedUpdate()
@@ -60,6 +72,7 @@ public class Enemy : MonoBehaviour
         rb.MovePosition(newPos);
 
         // Rotate smoothly toward smoothed movement direction
+        /*
         float targetAngle = Mathf.Atan2(smoothDir.y, smoothDir.x) * Mathf.Rad2Deg - 90f;
         float angle = Mathf.MoveTowardsAngle(
         transform.eulerAngles.z,
@@ -67,5 +80,22 @@ public class Enemy : MonoBehaviour
         rotationSpeed * Time.fixedDeltaTime
         );
         transform.rotation = Quaternion.Euler(0, 0, angle);
+        */
+        
+        //draw dot product btwn vector of player up and the vector from enemy to player
+        dotProd = Vector2.Dot((this.transform.position - player.position).normalized, player.up);
+        angleMade = Mathf.Acos(dotProd); //get the angle
+        angleMadeDegrees = angleMade * Mathf.Rad2Deg; //convert to degree
+        //dot product is normalized, track whether it is increasing/decreasing
+        if(dotProd < angleTracker){
+            newRotation = Quaternion.Euler(0,0,(180-angleMadeDegrees));
+            angleTracker = dotProd ;
+        }
+        if(dotProd > angleTracker){
+            newRotation = Quaternion.Euler(0,0,-180+angleMadeDegrees);
+            angleTracker = dotProd ;
+        }
+        transform.rotation = newRotation; //change rotation
+
     }
 }
